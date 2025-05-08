@@ -1,0 +1,1 @@
+I designed this app with AWS in mind. In my interview it was stated that AWS data lake was used (I assume S3) so I tried to develop in a way that will be easy to migrate to AWS

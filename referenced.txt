@@ -1,0 +1,2 @@
+FHIR by Synthea - https://www.hl7.org/fhir/overview.html
+Concept of FHIR - https://www.youtube.com/watch?v=fv2xTR_0QnA&ab_channel=InterSystemsLearningServices
