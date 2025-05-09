@@ -1,20 +1,7 @@
 import os, psycopg2
-def read_data(directory: str) -> list:
-    """
-    Reads data from a file and returns it as a list of lines.
-    
-    :param file_path: Path to the file to be read.
-    :return: List of lines from the file.
-    """
-    with open(file_path, 'r') as file:
-        data = file.readlines()
-    return data
-
-def set_up():
-
-
-
-
+from src.transformer import Transformer
+from src.utils import read_data, reset_db
+from src.transformer import format_to_fhir
 
 if __name__ == "__main__":
     db_params = {
@@ -27,4 +14,10 @@ if __name__ == "__main__":
     connection = psycopg2.connect(**db_params)
     connection.autocommit = True
     cursor = connection.cursor()
-    set_up(cursor)
+    reset_db(cursor)
+    raw_data = read_data()
+
+# run this async
+    for obj in raw_data:
+        format_to_fhir(obj)
+
