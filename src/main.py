@@ -13,7 +13,11 @@ def main():
     for file_key in files:
         try:
             data = get_file_data(f"data/{file_key}")
-            
+            entries = data["entry"]
+            if not entries:
+                logger.warning(f"No entries found in file {file_key}")
+                continue
+            patient = get_patient_info(entries)
         except Exception as e:
             logger.error(f"Error processing file {file_key}: {e}")
             continue
