@@ -1,16 +1,15 @@
-import os, psycopg2, json, logging
-import fhirbase
+import os
 import psycopg2
-from src.utils import get_file_names, reset_db, get_file_data
-from src.transformer import Transformer
-from src.database import create_patient_table, insert_patient, insert_new_resource
+import json 
+import logging
+from utils import get_file_names, reset_db, get_file_data
+from database import create_patient_table, insert_patient, insert_new_resource
 logger = logging.getLogger(__name__)
 def main(cursor):
     files = get_file_names("data")
     if not files:
         raise Exception("No files found in data directory")
     create_patient_table(cursor)
-    transformer = Transformer(cursor)
 # run this async
     for file_key in files:
         try:
@@ -28,18 +27,12 @@ def main(cursor):
                 else:
                     logger.error("No patient found in entries")
                     continue
-
-            try:
-                patient_id, entries = Transformer.get_patient_info(entries)
-            except Exception as e: 
-                logger.error("No patient found in entries") 
-                continue         
                 
             for resource in entries:
                 resource_type = resource.get("resourceType").lower()
                 if resource_type == "patient":
                     continue
-                resource_id = insert_new_resource(cursor, resource, patient_id)
+                resource_id = insert_new_resource(cursor, resource, patient["id"])
                 logger.info(f"Inserted {resource_type} with id: {resource_id}")
 
 

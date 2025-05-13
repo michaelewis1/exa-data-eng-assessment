@@ -1,4 +1,4 @@
-import psycopg2, json, os
+import json, os
 from json.decoder import JSONDecodeError
 
 import logging
